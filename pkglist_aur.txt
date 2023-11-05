@@ -1,0 +1,15 @@
+azure-cli
+cli-visualizer
+hollywood
+mod_fcgid
+nerd-fonts-sf-mono
+nvim-packer-git
+paperview-git
+php-cs-fixer
+phpactor
+phpstorm
+postman-bin
+rxvt-unicode-truecolor-wide-glyphs
+teams
+vim-plug
+yay

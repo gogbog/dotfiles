@@ -1,0 +1,194 @@
+set tabstop=4 softtabstop=4
+set shiftwidth=4
+set expandtab
+set smartindent
+"set guicursor=
+set number
+set relativenumber
+set nohlsearch
+set hidden
+set noerrorbells
+set incsearch
+set scrolloff=12
+set colorcolumn=150
+set encoding=UTF-8
+set guifont=Fira\ Code\ 11
+set nowrap
+
+" Having longer updatetime (default is 4000 ms = 4s) leads to noticeable
+" delays and poor user experience
+set updatetime=300
+
+" Always show the signcolumn, otherwise it would shift the text each time
+" diagnostics appear/become resolved
+set signcolumn=yes
+
+
+
+call plug#begin('~/.vim/plugged')
+
+Plug 'itchyny/lightline.vim'
+Plug 'mengelbrecht/lightline-bufferline'
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
+Plug 'morhetz/gruvbox'
+Plug 'preservim/nerdtree'
+Plug 'tpope/vim-commentary'
+Plug 'jiangmiao/auto-pairs'
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'phpactor/phpactor', {'for': 'php', 'tag': '*', 'do': 'composer install --no-dev -o'}
+Plug 'beanworks/vim-phpfmt'
+Plug 'psliwka/vim-smoothie'
+Plug 'prettier/vim-prettier', { 'do': 'yarn install --frozen-lockfile --production' }
+Plug 'gwww/vim-bbye'
+Plug 'joshdick/onedark.vim'
+"Plug 'ryanoasis/vim-devicons'
+Plug 'Mofiqul/vscode.nvim'
+
+"Plug 'ludovicchabant/vim-gutentags'
+Plug 'kristijanhusak/vim-js-file-import', {'do': 'npm install'}
+
+"JS
+Plug 'mxw/vim-jsx'
+Plug 'pangloss/vim-javascript'
+
+call plug#end()
+
+source $HOME/.config/nvim/coc.vim
+
+"set termguicolors
+"colorscheme gruvbox
+
+"Use 24-bit (true-color) mode in Vim/Neovim when outside tmux.
+"If you're using tmux version 2.2 or later, you can remove the outermost $TMUX check and use tmux's 24-bit color support
+"(see < http://sunaku.github.io/tmux-24bit-color.html#usage > for more information.)
+if (empty($TMUX))
+  if (has("nvim"))
+    "For Neovim 0.1.3 and 0.1.4 < https://github.com/neovim/neovim/pull/2198 >
+    let $NVIM_TUI_ENABLE_TRUE_COLOR=1
+  endif
+  "For Neovim > 0.1.5 and Vim > patch 7.4.1799 < https://github.com/vim/vim/commit/61be73bb0f965a895bfb064ea3e55476ac175162 >
+  "Based on Vim patch 7.4.1770 (`guicolors` option) < https://github.com/vim/vim/commit/8a633e3427b47286869aa4b96f2bfc1fe65b25cd >
+  " < https://github.com/neovim/neovim/wiki/Following-HEAD#20160511 >
+  if (has("termguicolors"))
+    set termguicolors
+  endif
+endif
+
+
+
+syntax on
+let g:onedark_termcolors=256
+let g:onedark_hide_endofbuffer = 1
+let g:airline_theme='onedark'
+colorscheme onedark
+
+
+set background=dark
+"highlight Normal     ctermbg=NONE guibg=NONE
+"highlight LineNr     ctermbg=NONE guibg=NONE
+"highlight SignColumn ctermbg=NONE guibg=NONE
+
+
+autocmd FileType vim setlocal foldmethod=marker
+
+
+
+let NERDTreeShowHidden=1
+let NERDTreeMinimalUI=1
+
+" Start NERDTree when Vim starts with a directory argument.
+autocmd StdinReadPre * let s:std_in=1
+autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists('s:std_in') |
+    \ execute 'NERDTree' argv()[0] | wincmd p | enew | execute 'cd '.argv()[0] | endif
+
+
+" Exit Vim if NERDTree is the only window remaining in the only tab.
+autocmd BufEnter * if tabpagenr('$') == 1 && winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif
+
+
+nnoremap <SPACE> <Nop>
+let mapleader=" "
+
+function! FZFOpen(command_str)
+  if (expand('%') =~# 'NERD_tree' && winnr('$') > 1)
+    exe "normal! \<c-w>\<c-w>"
+  endif
+  exe 'normal! ' . a:command_str . "\<cr>"
+endfunction
+
+nnoremap <silent> <C-p> :call FZFOpen(':GFiles')<CR>
+
+"command! -bang -nargs=* Rg call fzf#vim#grep('rg --column --line-number --no-heading --color=always --colors "path:fg:190,220,255" --colors "line:fg:128,128,128" --smart-case '.shellescape(<q-args>), 1, { 'options': '--color hl:123,hl+:222' }, 0)
+
+function! RipgrepFzf(query, fullscreen)
+  let command_fmt = 'rg --column --line-number --no-heading --color=always --smart-case --type=markdown -- %s || true'
+  let initial_command = printf(command_fmt, shellescape(a:query))
+  let reload_command = printf(command_fmt, '{q}')
+  let spec = {'options': ['--disabled', '--query', a:query, '--bind', 'change:reload:'.reload_command]}
+  let spec = fzf#vim#with_preview(spec, 'right', 'ctrl-/')
+  call fzf#vim#grep(initial_command, 1, spec, a:fullscreen)
+endfunction
+
+command! -nargs=* -bang RG call RipgrepFzf(<q-args>, <bang>0)
+
+nnoremap <silent> <C-o> :call FZFOpen(':Rg')<CR>
+
+nnoremap <leader>n :NERDTreeFocus<CR>
+nnoremap <C-n> :NERDTree<CR>
+nnoremap <C-t> :NERDTreeToggle<CR>
+
+
+" Buffers
+let g:lightline#bufferline#show_number  = 2
+let g:lightline#bufferline#filename_modifier= ':.'
+let g:lightline#bufferline#more_buffers = '...'
+let g:lightline#bufferline#modified = ' ●'
+let g:lightline#bufferline#read_only = ' '
+let g:lightline#bufferline#shorten_path = 1
+let g:lightline#bufferline#enable_devicons = 1
+let g:lightline#bufferline#unicode_symbols = 1
+let g:lightline#bufferline#clickable = 1
+
+let g:lightline                  = {}
+let g:lightline.tabline          = {'left': [['buffers']], 'right': [['close']]}
+let g:lightline.component_expand = {'buffers': 'lightline#bufferline#buffers'}
+let g:lightline.component_type   = {'buffers': 'tabsel'}
+set showtabline=2
+
+nmap <Leader>1 <Plug>lightline#bufferline#go(1)
+nmap <Leader>2 <Plug>lightline#bufferline#go(2)
+nmap <Leader>3 <Plug>lightline#bufferline#go(3)
+nmap <Leader>4 <Plug>lightline#bufferline#go(4)
+nmap <Leader>5 <Plug>lightline#bufferline#go(5)
+nmap <Leader>6 <Plug>lightline#bufferline#go(6)
+nmap <Leader>7 <Plug>lightline#bufferline#go(7)
+nmap <Leader>8 <Plug>lightline#bufferline#go(8)
+nmap <Leader>9 <Plug>lightline#bufferline#go(9)
+nmap <Leader>0 <Plug>lightline#bufferline#go(10)
+
+" VIMSPECTOR
+"
+"let g:vimspector_enable_mappings = 'HUMAN'
+"let g:vimspector_base_dir=expand('$HOME/.config/nvim/vimspector-config' )
+
+"nmap <F12> <Plug>VimspectorStepInto
+
+"nmap <C-[> :VimspectorReset<CR>
+"nmap <C-d>    <Plug>VimspectorDisassemble
+
+
+"" Prettier
+let g:prettier#autoformat = 1
+let g:prettier#autoformat_require_pragma = 0
+
+
+" BBYE
+nnoremap <Leader>q :Bdelete<CR>
+
+" compiler for different files CTRL + C
+set autowrite 
+nnoremap <C-c> :!g++ -std=c++11 % -Wall -g -o %.out && ./%.out<CR> 
+" autocmd filetype cpp nnoremap <C-c> :w <bar> !clear && bear g++-10 -std=gnu++14 -O2 % -o %:p:h/%:t:r.exe && ./%:r.exe<CR> 
+" autocmd filetype c nnoremap <C-c> :w <bar> !gcc -std=c99 -lm % -o %:p:h/%:t:r.out && ./%:r.out<CR> 
+" autocmd filetype java nnoremap <C-c> :w <bar> !javac % && java -enableassertions %:p <CR> 

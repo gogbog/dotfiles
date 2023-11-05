@@ -1,0 +1,140 @@
+# i3blocks config file
+#
+# Please see man i3blocks for a complete reference!
+# The man page is also hosted at http://vivien.github.io/i3blocks
+#
+# List of valid properties:
+#
+# align
+# color
+# command
+# full_text
+# instance
+# interval
+# label
+# min_width
+# name
+# separator
+# separator_block_width
+# short_text
+# signal
+# urgent
+
+# Global properties
+#
+# The top properties below are applied to every block, but can be overridden.
+# Each block command defaults to the script name to avoid boilerplate.
+#command=/usr/share/i3blocks/$BLOCK_NAME
+#separator_block_width=12
+#markup=none
+#
+
+
+
+[systemctl]
+command=$SCRIPT_DIR/systemctl/systemctl
+interval=3
+markup=pango
+instance=httpd
+
+[systemctl]
+command=$SCRIPT_DIR/systemctl/systemctl
+interval=3
+markup=pango
+instance=mariadb
+
+
+[systemctl]
+command=$SCRIPT_DIR/systemctl/systemctl
+interval=3
+markup=pango
+instance=postgresql
+
+[systemctl]
+command=$SCRIPT_DIR/systemctl/systemctl
+interval=3
+markup=pango
+instance=docker
+
+
+[volume]
+command=$SCRIPT_DIR/volume/volume
+LABEL=🔈 
+interval=once
+signal=10
+STEP=5%
+min_width=45
+align=center
+
+
+[temperature]
+command=$SCRIPT_DIR/temperature/temperature
+label=🔥 
+interval=10
+#T_WARN=70
+##T_CRIT=90
+##SENSOR_CHIP=""
+min_width=75
+align=center
+
+
+
+[cpu_usage]
+command=$SCRIPT_DIR/cpu_usage/cpu_usage
+interval=1
+LABEL=💻 
+min_width=CPU: 10
+DECIMALS=2
+min_width=65
+align=center
+
+
+[memory2]
+command=$SCRIPT_DIR/memory2/memory2
+interval=persist
+markup=pango
+bar_chars=_▏▎▍▌▋▊▉██
+bar_size=10
+critical=50
+warning=20
+color_critical=#d9534f
+min_width=206
+align=center
+
+
+# Battery indicator
+#
+# The battery instance defaults to 0.
+[battery2]
+command=$SCRIPT_DIR/battery2/battery2
+instance=0
+markup=pango
+interval=30
+align=center
+min_width=100
+align=center
+
+
+
+# Calendar
+#
+[calendar]
+command=$SCRIPT_DIR/calendar/calendar
+label=
+interval=1
+HEIGHT=180
+WIDTH=220
+min_width=170
+align=center
+
+
+
+
+
+# Date Time
+#
+#[time]
+#command=date '+%d-%m-%Y %H:%M:%S'
+#interval=1
+
+
