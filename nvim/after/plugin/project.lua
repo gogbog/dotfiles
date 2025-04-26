@@ -1,17 +1,28 @@
 
 
-require('project_nvim').setup({
-
-})
-
--- lua
-require("nvim-tree").setup({
-  sync_root_with_cwd = true,
-  respect_buf_cwd = true,
-  update_focused_file = {
-    enable = true,
-    update_root = true
-  },
-})
-
-
+-- require('project_nvim').setup({
+--
+-- })
+--
+-- -- lua
+-- require("nvim-tree").setup({
+--   filters = {
+--     dotfiles = false,
+--     git_clean = false,
+--     no_buffer = false,
+--     custom = { 'node_modules' },
+--   },
+--   hijack_cursor = true,
+--   sync_root_with_cwd = true,
+--   update_focused_file = {
+--     enable = true,
+--     update_root = true
+--   },
+--   filters = {
+--      custom = {
+--        "^.git$",
+--      },
+--    },
+-- })
+--
+--

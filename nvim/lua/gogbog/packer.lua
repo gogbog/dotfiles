@@ -18,17 +18,15 @@ return require('packer').startup(function(use)
     })
 
     use {
-        'nvim-telescope/telescope.nvim', tag = '0.1.1',
+        'nvim-telescope/telescope.nvim', tag = '0.1.4',
         -- or                            , branch = '0.1.x',
         requires = { { 'nvim-lua/plenary.nvim' } }
     }
 
-    use({
-        'jessarcher/onedark.nvim',
-        config = function()
+    use 'navarasu/onedark.nvim'
 
-        end,
-    })
+
+    use {"folke/tokyonight.nvim"}
 
     use({ 'rose-pine/neovim', as = 'rose-pine' })
     -- vim.cmd('colorscheme rose-pine')
@@ -68,6 +66,8 @@ return require('packer').startup(function(use)
             { 'L3MON4D3/LuaSnip' },     -- Required
         }
     }
+
+    use {'mfussenegger/nvim-jdtls'}
 
     use({
         'famiu/bufdelete.nvim',
