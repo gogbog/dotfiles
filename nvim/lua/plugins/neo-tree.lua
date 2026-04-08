@@ -8,7 +8,8 @@ return {
         close_if_last_window = true,
         filesystem = {
             follow_current_file = {
-                enabled = true
+                enabled = true,
+                leave_dirs_open = true,
             },
             use_libuv_file_watcher = true,   -- optional, auto-refresh when FS changes
         },

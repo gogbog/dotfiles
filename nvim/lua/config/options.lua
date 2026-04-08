@@ -15,9 +15,11 @@ vim.opt.undofile = true
 vim.opt.hlsearch = false
 vim.opt.incsearch = true
 vim.opt.termguicolors = true
+vim.opt.clipboard = "unnamedplus"
 vim.opt.scrolloff = 8
-vim.opt.signcolumn = "no"
+vim.opt.smoothscroll = true
+vim.opt.signcolumn = "yes"
 vim.opt.isfname:append("@-@")
 vim.opt.updatetime = 50
-vim.o.splitright = true
-
+vim.opt.splitright = true
+vim.opt.winborder = 'rounded'

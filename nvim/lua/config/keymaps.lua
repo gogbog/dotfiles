@@ -33,11 +33,19 @@ vim.keymap.set("n", "Q", "<nop>", { desc = "Disable Q command", unpack(opts) })
 -- Run tmux sessionizer
 vim.keymap.set("n", "<C-f>", "<cmd>silent !tmux neww tmux-sessionizer<CR>", { desc = "Open tmux sessionizer", unpack(opts) })
 
--- Format buffer with LSP
-vim.keymap.set("n", "<leader>f", vim.lsp.buf.format, { desc = "Format buffer", unpack(opts) })
 
 -- Replace word under cursor
 vim.keymap.set("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]], { desc = "Replace word under cursor", unpack(opts) })
+
+-- Split windows
+vim.keymap.set("n", "<leader>v", "<cmd>vsplit<CR>", { desc = "Vertical split", unpack(opts) })
+vim.keymap.set("n", "<leader>h", "<cmd>split<CR>", { desc = "Horizontal split", unpack(opts) })
+
+-- Window navigation
+vim.keymap.set("n", "<C-h>", "<C-w>h", { desc = "Move to left split", unpack(opts) })
+vim.keymap.set("n", "<C-j>", "<C-w>j", { desc = "Move to split below", unpack(opts) })
+vim.keymap.set("n", "<C-k>", "<C-w>k", { desc = "Move to split above", unpack(opts) })
+vim.keymap.set("n", "<C-l>", "<C-w>l", { desc = "Move to right split", unpack(opts) })
 
 -- Save current buffer
 vim.keymap.set("n", "<leader>w", function()
@@ -48,4 +56,3 @@ end, { desc = "Save current buffer", unpack(opts) })
 vim.keymap.set("n", "<leader>wa", function()
   vim.cmd("wall")
 end, { desc = "Save all buffers", unpack(opts) })
-

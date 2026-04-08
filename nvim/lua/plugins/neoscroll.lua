@@ -1,5 +1,6 @@
 return {
   "karb94/neoscroll.nvim",
+  event = "VeryLazy",
   config = function()
     require('neoscroll').setup({
       -- Keys mapped to default scrolling animations
@@ -14,6 +15,8 @@ return {
       post_hook = nil,             -- Function after scrolling
       performance_mode = false,    -- Disable performance mode
     })
+
+    local neoscroll = require('neoscroll')
+    neoscroll.setup({ duration_multiplier = 0.5 })
   end,
 }
-

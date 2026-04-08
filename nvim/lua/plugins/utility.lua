@@ -4,6 +4,6 @@ return {
   -- So for api plugins like devicons, we can always set lazy=true
   { "nvim-tree/nvim-web-devicons", lazy = true },
 
-  { "numToStr/Comment.nvim", opts = {}, lazy = true, keys = { "gcc", "gbc" } },
+  { "numToStr/Comment.nvim", opts = {}, lazy = true, keys = { "gcc", "gbc", { "gc", mode = "v" } } },
 
 }

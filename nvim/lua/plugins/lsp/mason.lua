@@ -1,47 +1,52 @@
 return {
-    "williamboman/mason.nvim",
-    dependencies = {
-        "williamboman/mason-lspconfig.nvim",
-        "WhoIsSethDaniel/mason-tool-installer.nvim",
-    },
-    config = function()
-        -- import mason
-        local mason = require("mason")
+	"williamboman/mason.nvim",
+	dependencies = {
+		"williamboman/mason-lspconfig.nvim",
+		"WhoIsSethDaniel/mason-tool-installer.nvim",
+	},
+	config = function()
+		require("mason").setup({
+			ui = {
+				icons = {
+					package_installed = "✓",
+					package_pending = "➜",
+					package_uninstalled = "✗",
+				},
+			},
+		})
 
-        -- import mason-lspconfig
-        local mason_lspconfig = require("mason-lspconfig")
+		require("mason-lspconfig").setup({
+			automatic_enable = {
+				exclude = { "jdtls", "stylua" },
+			},
+			ensure_installed = {
+				"bashls",
+				"cssls",
+				"docker_compose_language_service",
+				"dockerls",
+				"eslint",
+				"gopls",
+				"helm_ls",
+				"html",
+				"intelephense",
+				"jdtls",
+				"lua_ls",
+				"tailwindcss",
+				"vtsls",
+				"yamlls",
+			},
+		})
 
-        local mason_tool_installer = require("mason-tool-installer")
-
-        -- enable mason and configure icons
-        mason.setup({
-            ui = {
-                icons = {
-                    package_installed = "✓",
-                    package_pending = "➜",
-                    package_uninstalled = "✗",
-                },
-            },
-        })
-
-
-        mason_lspconfig.setup({
-            --list of lsp's to ignore
-            automatic_enable = {
-                exclude = {
-                    "jdtls"
-                }
-            },
-            -- list of servers for mason to install
-            ensure_installed = {
-                "cssls",       -- css-lsp
-                "eslint",      -- eslint-lsp
-                "gopls",
-                "html",        -- html-lsp
-                "intelephense",
-                "tailwindcss", -- tailwindcss-language-server
-                "jdtls",
-            },
-        })
-    end,
+		require("mason-tool-installer").setup({
+			ensure_installed = {
+				"gofumpt",
+				"goimports",
+				"gomodifytags",
+				"google-java-format",
+				"impl",
+				"prettier",
+				"stylua",
+			},
+		})
+	end,
 }
